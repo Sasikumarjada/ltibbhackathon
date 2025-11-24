@@ -15,8 +15,8 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: mysqldb
-        image: sasikumarjada/clientapp:appimage
+      - name: nginx-app
+        image: nginx:latest
         ports:
         - containerPort: 80
         env:
