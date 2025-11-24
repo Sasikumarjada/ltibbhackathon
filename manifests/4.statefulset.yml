@@ -14,8 +14,8 @@ spec:
         app: app-database
     spec:
       containers:
-      - name: nginx
-        image: sasikumarjada/clientapp:dbimage
+      - name: mysql
+        image: mysql:8.0
         ports:
         - containerPort: 80
           name: web
