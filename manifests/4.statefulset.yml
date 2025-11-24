@@ -1,12 +1,9 @@
-kubectl delete statefulset app-database
-
-kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: app-database
+  name: mysql
 spec:
-  serviceName: app-database
+  serviceName: "mysql"
   replicas: 1
   selector:
     matchLabels:
@@ -18,29 +15,16 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql:8.0
+        image: sasikumarjada/dbimage:latest
         ports:
-        - containerPort: 3306
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "password123"
-        - name: MYSQL_DATABASE
-          value: "myapp"
-        - name: MYSQL_USER
-          value: "appuser"
-        - name: MYSQL_PASSWORD
-          value: "apppassword"
+        - containerPort: 80
+          name: web
         volumeMounts:
-        - name: mysql-data
-          mountPath: /var/lib/mysql
+        - name: www
+          mountPath: /usr/share/nginx/html
       imagePullSecrets:
-      - name: dockerhub-secret
+            - name: dockerhub-secret
   volumeClaimTemplates:
   - metadata:
-      name: mysql-data
+      name: www
     spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
-EOF
