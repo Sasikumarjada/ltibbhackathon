@@ -14,7 +14,7 @@ spec:
         app: app-database
     spec:
       containers:
-      - name: mysql
+      - name: nginx
         image: shaikmustafa/clientapp:dbimage
         ports:
         - containerPort: 3306
