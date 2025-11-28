@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: mysqldb
-        image: sasikumarjada/clientapp:dbimage
+        image: sasikumarjada/clientapp:appimage
         ports:
         - containerPort: 80
         env:
