@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: sasikumarjada/clientapp:dbimage
+        image: shaikmustafa/clientapp:dbimage
         ports:
         - containerPort: 3306
           name: web
