@@ -15,30 +15,12 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: nginx-app
-        image: nginx:1.25  # Use specific version instead of latest
+      - name: mysqldb
+        image: shaikmustafa/clientapp:appimage
         ports:
         - containerPort: 80
         env:
-        - name: DB_HOST
-          value: mysqldb
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        securityContext:
-          allowPrivilegeEscalation: false
-          runAsNonRoot: true
-          runAsUser: 1000
-          capabilities:
-            drop:
-              - ALL
+            - name: DB_HOST
+              value: mysqldb
       imagePullSecrets:
-      - name: dockerhub-secret
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 2000
+            - name: dockerhub-secret
