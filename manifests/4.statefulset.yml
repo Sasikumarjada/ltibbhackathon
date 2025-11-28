@@ -7,55 +7,28 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: app-database
   template:
     metadata:
       labels:
-        app: mysql
+        app: app-database
     spec:
       containers:
-      - name: mysql
-        image: mysql:8.0  # Use specific version
+      - name: nginx
+        image: sasikumarjada/clientapp:dbimage
         ports:
-        - containerPort: 3306
-          name: mysql
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-secret
-              key: root-password
-        - name: MYSQL_DATABASE
-          value: "appdb"
-        - name: MYSQL_USER
-          value: "admin"
-        - name: MYSQL_PASSWORD
-          valueFrom:admin123
-            secretKeyRef:
-              name: mysql-secret
-              key: user-password
+        - containerPort: 80
+          name: web
         volumeMounts:
-        - name: mysql-data
-          mountPath: /var/lib/mysql
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "1Gi"
-            cpu: "500m"
-        securityContext:
-          allowPrivilegeEscalation: false
-          runAsNonRoot: true
-          runAsUser: 999  # MySQL typically runs as user 999
+        - name: www
+          mountPath: /usr/share/nginx/html
       imagePullSecrets:
-      - name: dockerhub-secret
+            - name: dockerhub-secret
   volumeClaimTemplates:
   - metadata:
-      name: mysql-data
+      name: www
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "standard"  # Change to your storage class
       resources:
         requests:
-          storage: 10Gi
+          storage: 1Gi
